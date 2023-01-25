@@ -3,13 +3,11 @@ import { Container, Text, Heading, Stack, Image, Box, Center, Circle, Button, Mo
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArrowBackIcon, ExternalLinkIcon } from '@chakra-ui/icons'
-import PokeModal from '@/components/PokeModal';
 
 export const getServerSideProps = async (context) => {
     const { id } = context.query;
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     const pokemon = await res.json();
-    const paddedId = ('00' + id).slice(-3);
     const pokeID2 = ('00' + pokemon.id).slice(-3);
     const pokeID = id
     pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokeID2}.png`;
@@ -32,17 +30,17 @@ const Pokemon = ({ pokemon }) => {
     const [overlay, setOverlay] = React.useState(<OverlayOne />)
     const [pokeID, setPokeID] = useState([])
     function crzbtn(e) {
-        if (e.target.id == 'leftcross' && pokemon.id > 1 || e.target.id == 'leftT' && pokemon.id > 1) {
+        if ((e.target.id == 'leftcross' || e.target.id == 'leftT') && pokemon.id > 1) {
             router.push(`/pokemon/${pokemon.id - 1}`)
         }
-        if (e.target.id == 'topcross' || e.target.id == 'upT') {
+        if ((e.target.id == 'botcross' || e.target.id == 'downT') && pokemon.id > 10) {
+            router.push(`/pokemon/${pokemon.id - 10}`)
+        }
+        if ((e.target.id == 'topcross' || e.target.id == 'upT') && pokemon.id <= 141) {
             router.push(`/pokemon/${pokemon.id + 10}`)
         }
-        if (e.target.id == 'rightcross' || e.target.id == 'rightT') {
+        if ((e.target.id == 'rightcross'|| e.target.id == 'rightT') && pokemon.id <= 150) {
             router.push(`/pokemon/${pokemon.id + 1}`)
-        }
-        if (e.target.id == 'botcross' && pokemon.id > 10 || e.target.id == 'downT' && pokemon.id > 10) {
-            router.push(`/pokemon/${pokemon.id - 10}`)
         }
     }
 
@@ -60,7 +58,6 @@ const Pokemon = ({ pokemon }) => {
             ...pokeID,
             [e.target.name]: e.target.value
         })
-        console.log(e.target.value)
     }
 
     const handleSubmit = (e) => {
@@ -193,10 +190,10 @@ const Pokemon = ({ pokemon }) => {
                                 <FormLabel htmlFor='pokeID'>Pokemon ID</FormLabel>
                                 <InputGroup>
                                     <InputLeftAddon>ID</InputLeftAddon>
-                                        <Input type='number' name='pokeID' id='pokeID' placeholder={pokemon.id}
-                                            maxLength={'150'} minLength={'1'} onChange={handleChange}
-                                        ></Input>
-                                    
+                                    <Input type='number' name='pokeID' id='pokeID' placeholder={pokemon.id}
+                                        maxLength={'150'} minLength={'1'} onChange={handleChange}
+                                    ></Input>
+
                                 </InputGroup>
                             </FormControl>
                         </ModalBody>
