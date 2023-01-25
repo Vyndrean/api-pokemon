@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Container, Text, Heading, Stack, Image, Box, Center, Circle, Button, Modal, useDisclosure, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Grid, Input, HStack, FormLabel, FormControl, InputGroup, InputLeftAddon, useToast } from '@chakra-ui/react';
+import { Container, Text, Heading, Stack, Image, Box, Center, Circle, Button, Modal, useDisclosure, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Grid, Input, HStack, FormLabel, FormControl, InputGroup, InputLeftAddon, useToast, InputLeftElement } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArrowBackIcon, ExternalLinkIcon } from '@chakra-ui/icons'
@@ -10,8 +10,9 @@ export const getServerSideProps = async (context) => {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     const pokemon = await res.json();
     const paddedId = ('00' + id).slice(-3);
+    const pokeID2 = ('00' + pokemon.id).slice(-3);
     const pokeID = id
-    pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedId}.png`;
+    pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokeID2}.png`;
     pokemon.image2 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeID}.png`
     return {
         props: { pokemon },
@@ -64,15 +65,15 @@ const Pokemon = ({ pokemon }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(pokeID.pokeID < 1 || pokeID.pokeID > 150){
+        if (pokeID.pokeID < 1 || pokeID.pokeID > 150) {
             toast({
                 title: 'ID invalido',
                 position: 'top-right',
                 isCosable: true,
-                duration: 5000,
+                duration: 1500,
                 status: 'error'
             })
-        }else {
+        } else {
             router.push(`/pokemon/${pokeID.pokeID}`)
             onClose()
         }
@@ -107,7 +108,7 @@ const Pokemon = ({ pokemon }) => {
                             <div id="buttontopPicture2"></div>
                         </div>
                         <div id="picture">
-                            <img src={pokemon.image} alt="psykokwak" height="170" width={200} />
+                            <Image src={pokemon.image} alt="psykokwak" height="170" width={200} />
                         </div>
                         <div id="buttonbottomPicture"></div>
                         <div id="speakers">
@@ -141,7 +142,7 @@ const Pokemon = ({ pokemon }) => {
                 <div id="right">
                     <div id="stats">
                         <strong className='unselectable'>Name:</strong> {pokemon.name}<br />
-                        <strong className='unselectable'>Type:</strong> {pokemon.types[0].type.name + "\n"} {pokemon?.types[1]?.type?.name}<br />
+                        <strong className='unselectable'>Type:</strong> {pokemon?.types[0]?.type?.name + "\n"} {pokemon?.types[1]?.type?.name}<br />
                         <strong className='unselectable'>Height:</strong> {pokemon.height}<br />
                         <strong className='unselectable'>Weight:</strong> {pokemon.weight}<br /><br />
                     </div>
@@ -191,10 +192,11 @@ const Pokemon = ({ pokemon }) => {
                             <FormControl id='poke' isRequired>
                                 <FormLabel htmlFor='pokeID'>Pokemon ID</FormLabel>
                                 <InputGroup>
-                                <InputLeftAddon children='ID'/>
-                                <Input type='number' name='pokeID' id='pokeID' placeholder={pokemon.id}
-                                    maxLength={'150'} minLength={'1'} onChange={handleChange}
-                                ></Input>
+                                    <InputLeftAddon>ID</InputLeftAddon>
+                                        <Input type='number' name='pokeID' id='pokeID' placeholder={pokemon.id}
+                                            maxLength={'150'} minLength={'1'} onChange={handleChange}
+                                        ></Input>
+                                    
                                 </InputGroup>
                             </FormControl>
                         </ModalBody>
