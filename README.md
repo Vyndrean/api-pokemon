@@ -38,3 +38,9 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 https://app.netlify.com/start/deploy?repository=https://github.com/Vyndrean/api-pokemon
+
+markdown:
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/next-netlify-starter)
+
+html:
+<a href="https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/next-netlify-starter"><img src="https://www.netlify.com/img/deploy/button.svg"></a>
