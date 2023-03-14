@@ -89,7 +89,7 @@ const Pokemon = ({ pokemon }) => {
                             <Text ml={2} mt={2} fontSize={20}>{pokemonID()}</Text>
                             <div id="reflect"></div>
                         </div>
-                        <div id="miniButtonGlass1" className='pointer' onClick={() => router.push("/pokemon")}></div>
+                        <div id="miniButtonGlass1" className='pointer' onClick={() => router.push("/")}></div>
                         <div id="miniButtonGlass2"></div>
                         <div id="miniButtonGlass3"></div>
                     </div>
